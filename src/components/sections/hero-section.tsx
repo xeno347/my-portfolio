@@ -22,7 +22,6 @@ const heroItem = {
     opacity: 1,
     transition: {
       duration: 0.75,
-      ease: [0.2, 1, 0.25, 1],
     },
   },
 };

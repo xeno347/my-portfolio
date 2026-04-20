@@ -15,29 +15,6 @@ type SplitTextRevealProps = {
   delay?: number;
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.025,
-      ease: "easeOut",
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: "0.65em", opacity: 0 },
-  visible: {
-    y: "0em",
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
 export function SplitTextReveal({
   text,
   as = "h2",
@@ -65,26 +42,24 @@ export function SplitTextReveal({
 
   return (
     <Tag className={className}>
-      <motion.span
+      <span
         ref={rootRef}
         className="inline-block overflow-hidden align-bottom"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        transition={{ delay }}
       >
         {tokens.map((token, index) => (
           <motion.span
             key={`${token}-${index}`}
-            variants={itemVariants}
             className="inline-block"
             aria-hidden="true"
+            initial={{ y: "0.65em", opacity: 0 }}
+            animate={isInView ? { y: "0em", opacity: 1 } : { y: "0.65em", opacity: 0 }}
+            transition={{ duration: 0.6, delay: delay + index * 0.025 }}
           >
             {token === " " ? "\u00A0" : token}
             {mode === "words" && index !== tokens.length - 1 ? "\u00A0" : ""}
           </motion.span>
         ))}
-      </motion.span>
+      </span>
     </Tag>
   );
 }

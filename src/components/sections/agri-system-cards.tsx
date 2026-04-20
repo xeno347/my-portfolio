@@ -49,7 +49,7 @@ export function AgriSystemCards() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.55, delay: index * 0.09, ease: [0.2, 1, 0.25, 1] }}
+              transition={{ duration: 0.55, delay: index * 0.09 }}
             >
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#dbf86f]">
                 {`0${index + 1}`}

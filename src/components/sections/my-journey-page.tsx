@@ -19,8 +19,8 @@ export function MyJourneyPage() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const heroTitleRef = useRef<HTMLHeadingElement | null>(null);
   const heroOrbRef = useRef<HTMLDivElement | null>(null);
-  const experienceRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const educationRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const experienceRefs = useRef<Array<HTMLElement | null>>([]);
+  const educationRefs = useRef<Array<HTMLElement | null>>([]);
   const projectsRailWrapRef = useRef<HTMLDivElement | null>(null);
   const projectsRailRef = useRef<HTMLDivElement | null>(null);
   const projectCardRefs = useRef<Array<HTMLDivElement | null>>([]);
