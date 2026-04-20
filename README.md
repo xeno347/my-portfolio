@@ -19,7 +19,8 @@ This repo includes an automated workflow at [.github/workflows/deploy-gh-pages.y
 2. Open your repository on GitHub.
 3. Go to `Settings -> Pages`.
 4. In `Build and deployment`, set:
-	- `Source`: `GitHub Actions`
+	- `Source`: `Deploy from a branch`
+	- `Branch`: `gh-pages` and `/(root)`
 
 ### Deploy
 
@@ -27,7 +28,7 @@ This repo includes an automated workflow at [.github/workflows/deploy-gh-pages.y
 2. GitHub Actions will:
 	- install dependencies
 	- build static files with Next.js (`out/`)
-	- deploy to GitHub Pages
+	- push static files to the `gh-pages` branch
 
 ### URL behavior
 
