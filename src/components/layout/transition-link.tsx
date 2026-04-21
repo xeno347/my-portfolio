@@ -27,19 +27,27 @@ export function TransitionLink({ href, children, className, onNavigate, ...props
   const router = useRouter();
   const pathname = usePathname();
   const prefetchedRef = useRef(false);
+
   const hrefString = typeof href === "string" ? href : href.toString();
+  const isExternalHref = /^([a-z][a-z0-9+.-]*:|\/\/)/i.test(hrefString);
+
+  // Ensure GitHub Pages (basePath) always works for internal navigation.
+  // In `output: "export"`, `router.push("/contact")` can break when hosted under `/<repo>/`.
+  const internalHref = !isExternalHref && hrefString.startsWith("/")
+    ? `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${hrefString}`
+    : hrefString;
 
   const prefetchRoute = () => {
-    if (prefetchedRef.current) {
+    if (prefetchedRef.current || isExternalHref) {
       return;
     }
 
     prefetchedRef.current = true;
-    router.prefetch(hrefString);
+    router.prefetch(internalHref);
   };
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (!canHandleClientTransition(event)) {
+    if (!canHandleClientTransition(event) || isExternalHref) {
       return;
     }
 
@@ -52,13 +60,13 @@ export function TransitionLink({ href, children, className, onNavigate, ...props
 
     event.preventDefault();
     prefetchRoute();
-    dispatchRouteTransitionStart({ href: hrefString });
+    dispatchRouteTransitionStart({ href: internalHref });
     onNavigate?.();
 
     const delay = prefetchedRef.current ? 120 : 190;
 
     window.setTimeout(() => {
-      router.push(hrefString);
+      router.push(internalHref);
     }, delay);
   };
 
