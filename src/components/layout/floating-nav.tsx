@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TransitionLink } from "@/src/components/layout/transition-link";
+import { getBasePath, withBasePath } from "@/src/lib/base-path";
 
 const navLinks = [
   { href: "/portfolio", label: "Portfolio" },
@@ -172,12 +173,13 @@ export function FloatingNav() {
     }
   }, [menuOpen]);
 
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const basePath = getBasePath();
   const normalizedPathname = basePath && pathname.startsWith(basePath)
     ? pathname.slice(basePath.length) || "/"
     : pathname;
 
   const isActiveRoute = (href: string) => {
+    // Compare against the non-basePath route.
     if (href === "/") {
       return normalizedPathname === "/";
     }
@@ -185,7 +187,7 @@ export function FloatingNav() {
     return normalizedPathname === href || normalizedPathname.startsWith(`${href}/`);
   };
 
-  const avatarSrc = `${basePath}/sharaj-hero.jpg`;
+  const avatarSrc = withBasePath("/sharaj-hero.jpg");
 
   return (
     <>

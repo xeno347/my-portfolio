@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "export": "next build",
-    "predeploy": "NEXT_PUBLIC_BASE_PATH=/my-portfolio BASE_PATH=/my-portfolio npm run build",
+    "predeploy": "BASE_PATH=$(node scripts/compute-base-path.mjs) NEXT_PUBLIC_BASE_PATH=$(node scripts/compute-base-path.mjs) npm run build",
     "deploy": "gh-pages -d out",
     "start": "next start",
     "lint": "eslint"

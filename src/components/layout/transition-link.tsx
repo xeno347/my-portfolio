@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import type { MouseEvent, ReactNode } from "react";
 import { useRef } from "react";
 import { dispatchRouteTransitionStart } from "@/src/components/animations/route-transition-events";
+import { withBasePath } from "@/src/lib/base-path";
 
 type TransitionLinkProps = Omit<LinkProps, "onClick"> & {
   children: ReactNode;
@@ -31,10 +32,8 @@ export function TransitionLink({ href, children, className, onNavigate, ...props
   const hrefString = typeof href === "string" ? href : href.toString();
   const isExternalHref = /^([a-z][a-z0-9+.-]*:|\/\/)/i.test(hrefString);
 
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
   // For internal routes, always render and navigate with basePath.
-  const internalHref = !isExternalHref && hrefString.startsWith("/") ? `${basePath}${hrefString}` : hrefString;
+  const internalHref = !isExternalHref ? withBasePath(hrefString) : hrefString;
 
   const prefetchRoute = () => {
     if (prefetchedRef.current || isExternalHref) {

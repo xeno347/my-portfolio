@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { useEffect, useRef } from "react";
+import { withBasePath } from "@/src/lib/base-path";
 
 type SharedProps = {
   children: ReactNode;
@@ -104,12 +105,16 @@ export function MagneticButton({
   if (isAnchorProps(elementProps)) {
     const { href, ...anchorProps } = elementProps;
 
+    const resolvedHref = /^([a-z][a-z0-9+.-]*:|\/\/|mailto:|tel:)/i.test(href)
+      ? href
+      : withBasePath(href);
+
     return (
       <a
         ref={(node) => {
           buttonRef.current = node;
         }}
-        href={href}
+        href={resolvedHref}
         className={sharedClassName}
         {...anchorProps}
       >

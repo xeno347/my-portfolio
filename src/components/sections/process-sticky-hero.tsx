@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useState } from "react";
 import { useLayoutEffect, useRef } from "react";
+import { withBasePath } from "@/src/lib/base-path";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,8 +26,7 @@ export function ProcessStickyHero({ sticky = true, title = "Sharaj Singh Padda" 
   const copyRef = useRef<HTMLParagraphElement | null>(null);
   const hintRef = useRef<HTMLParagraphElement | null>(null);
 
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-  const rawImageSrc = `${basePath}/sharaj-hero.jpg`;
+  const rawImageSrc = withBasePath("/sharaj-hero.jpg");
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
