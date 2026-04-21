@@ -31,11 +31,10 @@ export function TransitionLink({ href, children, className, onNavigate, ...props
   const hrefString = typeof href === "string" ? href : href.toString();
   const isExternalHref = /^([a-z][a-z0-9+.-]*:|\/\/)/i.test(hrefString);
 
-  // Ensure GitHub Pages (basePath) always works for internal navigation.
-  // In `output: "export"`, `router.push("/contact")` can break when hosted under `/<repo>/`.
-  const internalHref = !isExternalHref && hrefString.startsWith("/")
-    ? `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${hrefString}`
-    : hrefString;
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+  // For internal routes, always render and navigate with basePath.
+  const internalHref = !isExternalHref && hrefString.startsWith("/") ? `${basePath}${hrefString}` : hrefString;
 
   const prefetchRoute = () => {
     if (prefetchedRef.current || isExternalHref) {
@@ -53,7 +52,8 @@ export function TransitionLink({ href, children, className, onNavigate, ...props
 
     const currentPath = pathname ?? "/";
 
-    if (currentPath === hrefString) {
+    // Compare against the internal href (includes basePath) so GitHub Pages navigation works reliably.
+    if (currentPath === internalHref) {
       onNavigate?.();
       return;
     }
@@ -72,7 +72,7 @@ export function TransitionLink({ href, children, className, onNavigate, ...props
 
   return (
     <Link
-      href={href}
+      href={internalHref}
       className={className}
       onMouseEnter={prefetchRoute}
       onFocus={prefetchRoute}
