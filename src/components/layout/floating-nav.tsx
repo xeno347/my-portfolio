@@ -180,6 +180,9 @@ export function FloatingNav() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const avatarSrc = `${basePath}/sharaj-hero.jpg`;
+
   return (
     <>
       <header
@@ -217,7 +220,7 @@ export function FloatingNav() {
             >
               <span className="relative h-4 w-4 overflow-hidden rounded-sm bg-white/20">
                 <Image
-                  src="/sharaj-hero.jpg"
+                  src={avatarSrc}
                   alt=""
                   fill
                   sizes="16px"

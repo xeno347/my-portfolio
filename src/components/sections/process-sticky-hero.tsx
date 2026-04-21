@@ -25,6 +25,9 @@ export function ProcessStickyHero({ sticky = true, title = "Sharaj Singh Padda" 
   const copyRef = useRef<HTMLParagraphElement | null>(null);
   const hintRef = useRef<HTMLParagraphElement | null>(null);
 
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const rawImageSrc = `${basePath}/sharaj-hero.jpg`;
+
   useLayoutEffect(() => {
     const section = sectionRef.current;
     const processTitle = processTitleRef.current;
@@ -68,7 +71,7 @@ export function ProcessStickyHero({ sticky = true, title = "Sharaj Singh Padda" 
     }
 
     const image = new window.Image();
-    image.src = "/sharaj-hero.jpg";
+    image.src = rawImageSrc;
 
     image.onload = () => {
       const canvas = document.createElement("canvas");
@@ -110,7 +113,7 @@ export function ProcessStickyHero({ sticky = true, title = "Sharaj Singh Padda" 
     image.onerror = () => {
       setImageFailed(true);
     };
-  }, []);
+  }, [rawImageSrc]);
 
   return (
     <section ref={sectionRef} className={`relative bg-[#eae6dd] ${sticky ? "min-h-[170vh]" : "min-h-screen"}`}>
@@ -171,7 +174,7 @@ export function ProcessStickyHero({ sticky = true, title = "Sharaj Singh Padda" 
             >
               {!imageFailed ? (
                 <Image
-                  src={processedSrc ?? "/sharaj-hero.jpg"}
+                  src={processedSrc ?? rawImageSrc}
                   alt="Sharaj Singh Padda portrait"
                   fill
                   sizes="100vw"
