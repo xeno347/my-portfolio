@@ -172,15 +172,19 @@ export function FloatingNav() {
     }
   }, [menuOpen]);
 
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const normalizedPathname = basePath && pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length) || "/"
+    : pathname;
+
   const isActiveRoute = (href: string) => {
     if (href === "/") {
-      return pathname === "/";
+      return normalizedPathname === "/";
     }
 
-    return pathname === href || pathname.startsWith(`${href}/`);
+    return normalizedPathname === href || normalizedPathname.startsWith(`${href}/`);
   };
 
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const avatarSrc = `${basePath}/sharaj-hero.jpg`;
 
   return (
